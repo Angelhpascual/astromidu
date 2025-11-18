@@ -1,16 +1,31 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro"
+import "../styles.css"
+import Dogpics from "../components/DogPics.astro"
+const title = "Hello World"
+const imageError =
+  "https://www.publicdomainpictures.net/pictures/190000/nahled/sad-dog-1468499671wYW.jpg"
 
+const res = await fetch("https://dog.ceo/api/breeds/image/random/5")
+
+const response = await res.json()
+
+const dogImageUrls = response?.message ?? [imageError]
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout>
+  <h1>{title}</h1>
+  <Dogpics urls={dogImageUrls} />
+  <div>
+    <button id="cat-image-button">Get a Cat Image</button>
+  </div>
+  <div>
+    <img id="cat-image" />
+  </div>
+  <a href="/about">About</a>
+</BaseLayout>
+
+<script>
+  import { getCatLogicButton } from "./cat.ts"
+  getCatLogicButton()
+</script>
